@@ -880,7 +880,9 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 				&UtlsGREASEExtension{},
 			}),
 		}, nil
-	case HelloChrome_133:
+	case HelloChrome_133, HelloChrome_142, HelloChrome_143:
+		// Chrome 142/143 use identical TLS fingerprint to Chrome 133
+		// Added by RedEye fork (giveme11us/utls)
 		return ClientHelloSpec{
 			CipherSuites: []uint16{
 				GREASE_PLACEHOLDER,

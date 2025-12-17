@@ -645,6 +645,14 @@ var (
 	// Chrome w/ New ALPS codepoint
 	HelloChrome_133 = ClientHelloID{helloChrome, "133", nil, nil}
 
+	// Chrome 142/143 - Added by RedEye fork (giveme11us/utls)
+	// TLS fingerprint identical to Chrome 133 (no changes in TLS stack between 133-143)
+	HelloChrome_142 = ClientHelloID{helloChrome, "142", nil, nil}
+	HelloChrome_143 = ClientHelloID{helloChrome, "143", nil, nil}
+
+	// HelloChrome_Auto_Latest always points to the newest Chrome version
+	HelloChrome_Auto_Latest = HelloChrome_143
+
 	HelloIOS_Auto = HelloIOS_14
 	HelloIOS_11_1 = ClientHelloID{helloIOS, "111", nil, nil} // legacy "111" means 11.1
 	HelloIOS_12_1 = ClientHelloID{helloIOS, "12.1", nil, nil}
