@@ -880,9 +880,12 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 				&UtlsGREASEExtension{},
 			}),
 		}, nil
-	case HelloChrome_133, HelloChrome_142, HelloChrome_143:
-		// Chrome 142/143 use identical TLS fingerprint to Chrome 133
-		// Added by RedEye fork (giveme11us/utls)
+	case HelloChrome_133, HelloChrome_142, HelloChrome_143, HelloChrome_146, HelloChrome_147:
+		// Chrome 142/143/146/147 share TLS fingerprint with Chrome 133.
+		// Verified via wreq-util v132 profile + Chrome 147 live capture on tls.peet.ws
+		// (JA4 t13d1516h2_8daaf6152771_d8a2da3f94cd). Per-version deltas are at the
+		// HTTP header layer (sec-ch-ua, User-Agent), not TLS.
+		// Added by RedEye fork (giveme11us/utls).
 		return ClientHelloSpec{
 			CipherSuites: []uint16{
 				GREASE_PLACEHOLDER,
