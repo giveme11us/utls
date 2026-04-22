@@ -666,6 +666,14 @@ var (
 
 	HelloAndroid_11_OkHttp = ClientHelloID{helloAndroid, "11", nil, nil}
 
+	// HelloAndroid_14_OkHttp_5 - Added by RedEye fork (giveme11us/utls).
+	// Modern Android 14 + OkHttp 5 on Conscrypt/BoringSSL:
+	// TLS 1.3 capable, NO GREASE, NO ALPS, NO ECH, NO cert compression.
+	// Used for mimicking native Android apps hitting mobile APIs (bol app, Amazon app,
+	// SNKRS, etc.) where Chrome desktop fingerprint would cause UA/JA4 mismatch.
+	// Reference: 0x676e67/wreq-util src/emulate/profile/okhttp.rs (okhttp5 entry).
+	HelloAndroid_14_OkHttp_5 = ClientHelloID{helloAndroid, "14_OkHttp_5", nil, nil}
+
 	HelloEdge_Auto = HelloEdge_85 // HelloEdge_106 seems to be incompatible with this library
 	HelloEdge_85   = ClientHelloID{helloEdge, "85", nil, nil}
 	HelloEdge_106  = ClientHelloID{helloEdge, "106", nil, nil}
