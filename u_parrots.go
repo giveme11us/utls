@@ -1925,11 +1925,18 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 		}, nil
 	case HelloAndroid_14_OkHttp_5:
 		// Modern Android 14 + OkHttp 5 on Conscrypt/BoringSSL.
-		// TLS 1.3 capable with X25519 key share; NO GREASE, NO ALPS, NO ECH,
-		// NO certificate compression. Cipher list + sigalgs per wreq-util
-		// okhttp.rs okhttp5 profile (includes legacy TLS_RSA_WITH_3DES_EDE_CBC_SHA
-		// and rsa_pkcs1_sha1 for broad server compat).
-		// Added by RedEye fork (giveme11us/utls) for native Android app mimicry.
+		// Empirically validated against bol.com Android app (com.bol.shop
+		// 2026.8.1) on Samsung Galaxy S22 Ultra (SM-S908B, Android 14, API 34).
+		// Real JA4: t13d1513h2_8daaf6152771_eca864cca44a (15 ciphers, 13 extensions).
+		//
+		// Deviations from wreq-util okhttp5 profile (empirically corrected):
+		//   - NO TLS_RSA_WITH_3DES_EDE_CBC_SHA (wreq was wrong, real Android drops it)
+		//   - NO signed_certificate_timestamp extension (wreq assumed present)
+		//   - YES padding extension at tail (wreq missed it)
+		//
+		// Used for native Android app mimicry where Chrome desktop fingerprint
+		// causes UA/JA4 mismatch (bol app-api, Amazon app, SNKRS, etc.).
+		// Added by RedEye fork (giveme11us/utls).
 		return ClientHelloSpec{
 			CipherSuites: []uint16{
 				TLS_AES_128_GCM_SHA256,
@@ -1947,7 +1954,6 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 				TLS_RSA_WITH_AES_256_GCM_SHA384,
 				TLS_RSA_WITH_AES_128_CBC_SHA,
 				TLS_RSA_WITH_AES_256_CBC_SHA,
-				TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 			},
 			CompressionMethods: []byte{
 				0x00, // compressionNone
@@ -1978,7 +1984,6 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 					PKCS1WithSHA512,
 					PKCS1WithSHA1,
 				}},
-				&SCTExtension{},
 				&KeyShareExtension{[]KeyShare{
 					{Group: X25519},
 				}},
@@ -1989,6 +1994,7 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 					VersionTLS13,
 					VersionTLS12,
 				}},
+				&UtlsPaddingExtension{GetPaddingLen: BoringPaddingStyle},
 			},
 		}, nil
 	case HelloEdge_85:
