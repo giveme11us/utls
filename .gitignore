@@ -1,0 +1,4 @@
+# Local agent/indexer tooling — not part of the library
+.claude/
+.mcp.json
+.repowise/
