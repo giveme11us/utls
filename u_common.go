@@ -646,17 +646,22 @@ var (
 	// Chrome w/ New ALPS codepoint
 	HelloChrome_133 = ClientHelloID{helloChrome, "133", nil, nil}
 
-	// Chrome 142/143/146/147 - Added by RedEye fork (giveme11us/utls)
-	// TLS fingerprint identical to Chrome 133 (no TLS stack changes 133→147 — verified
+	// Chrome 142/143/146/147/148/149 - Added by RedEye fork (giveme11us/utls)
+	// TLS fingerprint identical to Chrome 133 (no TLS stack changes 133→149 — verified
 	// against wreq-util v132 profile and Chrome 147 live capture on tls.peet.ws).
+	// The Chrome ClientHello is frozen since X25519MLKEM768 landed (~Chrome 131);
+	// trust_anchors / Trust Anchor Identifiers (draft-ietf-tls-trust-anchor-ids) is
+	// still experimental/origin-trial and NOT sent by default in stable 148/149.
 	// Per-version deltas (sec-ch-ua, User-Agent) live at HTTP header layer, not TLS.
 	HelloChrome_142 = ClientHelloID{helloChrome, "142", nil, nil}
 	HelloChrome_143 = ClientHelloID{helloChrome, "143", nil, nil}
 	HelloChrome_146 = ClientHelloID{helloChrome, "146", nil, nil}
 	HelloChrome_147 = ClientHelloID{helloChrome, "147", nil, nil}
+	HelloChrome_148 = ClientHelloID{helloChrome, "148", nil, nil}
+	HelloChrome_149 = ClientHelloID{helloChrome, "149", nil, nil}
 
 	// HelloChrome_Auto_Latest always points to the newest Chrome version
-	HelloChrome_Auto_Latest = HelloChrome_147
+	HelloChrome_Auto_Latest = HelloChrome_149
 
 	HelloIOS_Auto = HelloIOS_14
 	HelloIOS_11_1 = ClientHelloID{helloIOS, "111", nil, nil} // legacy "111" means 11.1

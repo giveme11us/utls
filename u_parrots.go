@@ -891,11 +891,13 @@ func utlsIdToSpec(id ClientHelloID) (ClientHelloSpec, error) {
 				&UtlsGREASEExtension{},
 			}),
 		}, nil
-	case HelloChrome_133, HelloChrome_142, HelloChrome_143, HelloChrome_146, HelloChrome_147:
-		// Chrome 142/143/146/147 share TLS fingerprint with Chrome 133.
+	case HelloChrome_133, HelloChrome_142, HelloChrome_143, HelloChrome_146, HelloChrome_147, HelloChrome_148, HelloChrome_149:
+		// Chrome 142/143/146/147/148/149 share TLS fingerprint with Chrome 133.
 		// Verified via wreq-util v132 profile + Chrome 147 live capture on tls.peet.ws
-		// (JA4 t13d1516h2_8daaf6152771_d8a2da3f94cd). Per-version deltas are at the
-		// HTTP header layer (sec-ch-ua, User-Agent), not TLS.
+		// (JA4 t13d1516h2_8daaf6152771_d8a2da3f94cd). The ClientHello is frozen since
+		// X25519MLKEM768 landed (~Chrome 131) and trust_anchors is not yet sent by
+		// default in stable 148/149, so 148/149 alias the same spec. Per-version
+		// deltas are at the HTTP header layer (sec-ch-ua, User-Agent), not TLS.
 		// Added by RedEye fork (giveme11us/utls).
 		return ClientHelloSpec{
 			CipherSuites: []uint16{

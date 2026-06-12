@@ -15,7 +15,7 @@ import (
 // Non-regression tests for the RedEye fork (giveme11us/utls) profiles.
 //
 // The fork's whole delta over upstream is a handful of ClientHelloIDs:
-// HelloChrome_142..147 (+ HelloChrome_Auto_Latest) share the Chrome 133 spec,
+// HelloChrome_142..149 (+ HelloChrome_Auto_Latest) share the Chrome 133 spec,
 // and HelloAndroid_14_OkHttp_5 carries its own Conscrypt/BoringSSL spec.
 // An upstream refactor of utlsIdToSpec or of the Chrome 133 spec would break
 // these silently, so we pin the JA4 fingerprints documented in u_parrots.go
@@ -23,7 +23,7 @@ import (
 // assertion is invariant to ShuffleChromeTLSExtensions.
 
 const (
-	ja4RedEyeChrome  = "t13d1516h2_8daaf6152771_d8a2da3f94cd" // u_parrots.go Chrome 133/142-147 case
+	ja4RedEyeChrome  = "t13d1516h2_8daaf6152771_d8a2da3f94cd" // u_parrots.go Chrome 133/142-149 case
 	ja4RedEyeOkHttp5 = "t13d1513h2_8daaf6152771_eca864cca44a" // u_parrots.go HelloAndroid_14_OkHttp_5 case
 )
 
@@ -34,6 +34,8 @@ func TestRedEyeChromeAliasesPinJA4(t *testing.T) {
 		HelloChrome_143,
 		HelloChrome_146,
 		HelloChrome_147,
+		HelloChrome_148,
+		HelloChrome_149,
 		HelloChrome_Auto_Latest,
 	} {
 		t.Run(helloID.Str(), func(t *testing.T) {
